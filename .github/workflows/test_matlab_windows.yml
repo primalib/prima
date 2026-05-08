@@ -117,3 +117,7 @@ jobs:
         with:
           command: |
             cd matlab/tests; testprima_ex();
+            if strcmpi('${{ matrix.compiler }}', 'mingw')
+                setenv('MW_MINGW64_LOC', 'C:\ProgramData\mingw64\mingw64');
+                mex('-setup', '-v', 'fortran');
+            end
