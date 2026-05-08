@@ -22,7 +22,7 @@ jobs:
       matrix:
         # As of 20260507 and MATLAB R2026a, MEX does not work on windows-latest due to the version
         # of MS Visual Studio, which is Visual Studio 2026 on windows-latest as of 20260507.
-        os: [windows-2025]
+        os: [windows-2022]
         matlab: [R2023a, latest]  # The earliest and latest supported versions of MATLAB
 
     steps:
