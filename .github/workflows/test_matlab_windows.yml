@@ -116,8 +116,8 @@ jobs:
         uses: matlab-actions/run-command@v3.1.0
         with:
           command: |
-            cd matlab/tests; testprima_ex();
             if strcmpi('${{ matrix.compiler }}', 'mingw')
                 setenv('MW_MINGW64_LOC', 'C:\ProgramData\mingw64\mingw64');
                 mex('-setup', '-v', 'fortran');
             end
+            cd matlab/tests; testprima_ex();
