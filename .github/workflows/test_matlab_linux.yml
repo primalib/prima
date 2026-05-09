@@ -136,4 +136,5 @@ jobs:
         uses: matlab-actions/run-command@v3.1.0
         with:
           command: |
-            cd matlab/tests; testprima_ex();
+            cd matlab/tests;
+            testprima_ex(true);  % true: test the classical mode.

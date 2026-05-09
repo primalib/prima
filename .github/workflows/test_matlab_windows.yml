@@ -122,21 +122,7 @@ jobs:
             end
             root_dir = pwd();
             cd(fullfile(root_dir, 'matlab/tests'));
-            try
-              parfor i = 1:1
-                  testprima_ex();
-              end
-            catch exception
-              % Copy the crash dump files to root_dir if exceptions occur.
-              copy_crash_dump_files(root_dir, true)
-              dir(root_dir)
-              rethrow(exception);
-            end
-
-      - name: Store artifacts
-        uses: actions/upload-artifact@v7
-        if: always()  # Always run even if the workflow is canceled manually or due to overtime.
-        with:
-          name: ${{ matrix.solver }}
-          path: |
-            matlab_crash_dump*
+            % With MinGW, we do not test the classical mode, which may encounter memory errors with
+            % the message "ERROR: MATLAB error Exit Status: 0xc0000409".
+            test_classical = ~strcmpi('${{ matrix.compiler }}', 'mingw');
+            testprima_ex(test_classical);

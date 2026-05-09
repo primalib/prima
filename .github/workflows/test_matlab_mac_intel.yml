@@ -100,4 +100,5 @@ jobs:
         with:
           timelimit: 320m
           command: |
-            cd matlab/tests; testprima_ex();
+            cd matlab/tests;
+            testprima_ex(true);  % true: test the classical mode.

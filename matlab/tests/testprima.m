@@ -1,5 +1,12 @@
-function testprima(release, precision, nrun)
+function testprima(release, precision, nrun, test_classical)
 %TESTPRIMA tests prima on a few VERY simple problems.
+%   release is a boolean that controls whether to test prima in release mode (true) or not (false).
+%   In release mode, the testing precision is relaxed and the testing results are not printed.
+%   precision is a positive scalar that specifies the required precision.
+%   nrun is a positive integer that specifies the number of runs with randomly perturbed x0. The
+%   default value is 1, meaning that no perturbation will be added to x0. If nrun > 1, a tiny
+%   quasi-random perturbation will be added to x0 in each run.
+%   test_classical is a boolean that controls whether to test the classical version of prima.
 %
 %   Note: Do NOT follow the syntax here when you use prima. This file is
 %   written for testing purpose, and it uses quite atypical syntax. See
@@ -39,6 +46,9 @@ if nargin < 3
     perturb = 0; % Magnitude of perturbation on x0
 else
     perturb = eps;
+end
+if nargin < 4
+    test_classical = false;
 end
 
 options.debug = true;
@@ -80,7 +90,7 @@ fopt_list = {{3, 3.2577598292927021e1, 600, 600,}, ... % goldp
 % 2. Himmelblau's function (hmlb) has multiple minima when
 % unconstrained. They are [3; 2], [-2.805118; 3.131312], [-3.779310; -3.283186], [3.584428; -1.848126]
 
-if release
+if release || ~test_classical
     clflag_list = {false}; % clflag: call the solvers in classical mode (true) or not (false)
 else
     clflag_list = {true, false}; % clflag: call the solvers in classical mode (true) or not (false)
