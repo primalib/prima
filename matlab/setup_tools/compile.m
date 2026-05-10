@@ -133,11 +133,11 @@ end
 % when MEX is called  with `compiler_options`. See Append Compiler Options in
 % https://www.mathworks.com/help/matlab/ref/mex.html
 % N.B.: on Windows with MinGW, the compiler is gfortran, and the option should be passed via
-% FCCOMPFLAGS rather than COMPFLAGS.
+% FCFLAGS rather than COMPFLAGS.
 if ispc && contains(compiler_manufacturer, 'intel')  % on Windows with Microsoft Visual Studio compilers
     compiler_options = ['COMPFLAGS="$COMPFLAGS ', extra_compiler_options, '"'];
 elseif ispc && contains(compiler_manufacturer, 'gnu')  % on Windows with MinGW
-    compiler_options = ['FCCOMPFLAGS="$FCCOMPFLAGS ', extra_compiler_options, '"'];
+    compiler_options = ['FCFLAGS="$FCFLAGS ', extra_compiler_options, '"'];
 else  % with MinGW (on Windows), macOS, and Linux compilers
     compiler_options = ['FFLAGS="$FFLAGS ', extra_compiler_options, '"'];
 end
