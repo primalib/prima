@@ -137,4 +137,6 @@ jobs:
         with:
           command: |
             cd matlab/tests;
-            testprima_ex(true);  % true: test the classical mode.
+            test_classical = true;
+            verbose = true;
+            testprima_ex(test_classical, verbose);

@@ -1,6 +1,7 @@
-function testprima_ex(test_classical)
+function testprima_ex(test_classical, verbose)
 %TESTPRIMA tests prima extensively on a few VERY simple problems, combining testprima and pdv.
 % test_classical is a boolean that controls whether to test the classical version of prima.
+% verbose is a boolean that controls whether the solvers print messages.
 
 ver;
 
@@ -11,11 +12,11 @@ options.debug = true;
 options.verbose = true;
 setup(options);
 prima('info')
-testprima(false, 1.0e-10, 100, test_classical);
+testprima(false, 1.0e-10, 100, test_classical, verbose);
 setup
 setup path
 prima('info')
-testprima(false, 1.0e-10, 100, test_classical);
+testprima(false, 1.0e-10, 100, test_classical, verbose);
 setup cobyla
 setup uobyqa
 setup newuoa

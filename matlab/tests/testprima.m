@@ -1,4 +1,4 @@
-function testprima(release, precision, nrun, test_classical)
+function testprima(release, precision, nrun, test_classical, verbose)
 %TESTPRIMA tests prima on a few VERY simple problems.
 %   release is a boolean that controls whether to test prima in release mode (true) or not (false).
 %   In release mode, the testing precision is relaxed and the testing results are not printed.
@@ -7,6 +7,8 @@ function testprima(release, precision, nrun, test_classical)
 %   default value is 1, meaning that no perturbation will be added to x0. If nrun > 1, a tiny
 %   quasi-random perturbation will be added to x0 in each run.
 %   test_classical is a boolean that controls whether to test the classical version of prima.
+%   verbose is a boolean that controls whether the solvers print messages. In release mode, it will
+%   be ignored and the solvers will not print messages.
 %
 %   Note: Do NOT follow the syntax here when you use prima. This file is
 %   written for testing purpose, and it uses quite atypical syntax. See
@@ -50,6 +52,10 @@ end
 if nargin < 4
     test_classical = false;
 end
+if nargin < 5
+    verbose = false;
+end
+verbose = verbose && ~release; % In release mode, the solvers will not print messages regardless of the value of `verbose`.
 
 options.debug = true;
 options.chkfunval = true;
@@ -129,9 +135,8 @@ for irun = 1 : nrun
                     problem.x0 = x0;
                     options.solver = solver;
                     options.classical = clflag;
+                    options.iprint = round(4*(2*rand() - 1)) * verbose;
                     problem.options = options;
-                    %problem.options.iprint = round(4*(2*rand() - 1)) * (1 - release);
-                    problem.options.iprint = 0;
 
                     switch type
                     case 'unconstrained'
@@ -163,7 +168,7 @@ for irun = 1 : nrun
 
                     xs = prima(problem);
 
-                    % Remove the *_output.txt files produced when iprint < 0.
+                    % Remove the *_output.txt files produced when options.iprint < 0.
                     if ~isempty(dir('*_output.txt'))
                         delete('*_output.txt');
                     end

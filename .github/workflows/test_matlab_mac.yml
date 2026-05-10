@@ -69,4 +69,4 @@ jobs:
 
       - name: Conduct the test  # We do not use matlab-actions/run-command, which is not supported on macOS ARM64 as of 20240119
         # true: test the classical mode.
-        run: ${{ env.MATLAB }} -nojvm -batch "cd matlab/tests; testprima_ex(true);"
+        run: ${{ env.MATLAB }} -nojvm -batch "cd matlab/tests; test_classical = true; verbose = true; testprima_ex(test_classical, verbose);"

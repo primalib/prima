@@ -171,7 +171,9 @@ jobs:
         with:
           command: |
             cd matlab/tests;
-            testprima_ex(false);  % false: do not test the classical mode.
+            test_classical = true;
+            verbose = true;
+            testprima_ex(test_classical, verbose);
 
       - name: Conduct the test; treat timeout as SUCCESS (exit 0). Only for macOS on Intel.
         if: ${{ runner.os == 'macOS' && runner.arch == 'X64' }}
@@ -180,4 +182,6 @@ jobs:
           timelimit: 320m
           command: |
             cd matlab/tests;
-            testprima_ex(false);  % false: do not test the classical mode.
+            test_classical = true;
+            verbose = true;
+            testprima_ex(test_classical, verbose);
