@@ -123,5 +123,7 @@ jobs:
             root_dir = pwd();
             cd(fullfile(root_dir, 'matlab/tests'));
             test_classical = true;
-            verbose = true;
+            % With MinGW, if we set verbose to true, MATLAB will crash with the message "ERROR: MATLAB error Exit Status: 0xc0000409".
+            % To be investigated whether this is a bug of MATLAB or MinGW. Setting verbose to false is a workaround.
+            verbose = ~strcmpi('${{ matrix.compiler }}', 'mingw');
             testprima_ex(test_classical, verbose);
