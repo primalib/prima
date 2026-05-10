@@ -129,14 +129,15 @@ else
         compiler_configurations.Name);
 end
 
-% Finally, set `compiler_options` so that `extra_compiler_options` is appended to COMPFLAGS (on
-% Windows with Microsoft Visual Studio compilers) or to FFLAGS (on other platforms) when MEX is
-% called  with `compiler_options`. See Append Compiler Options in
+% Finally, set `compiler_options` so that `extra_compiler_options` is appended to the compiler flags
+% when MEX is called  with `compiler_options`. See Append Compiler Options in
 % https://www.mathworks.com/help/matlab/ref/mex.html
 % N.B.: on Windows with MinGW, the compiler is gfortran, and the option should be passed via
-% FFLAGS rather than COMPFLAGS.
+% FCCOMPFLAGS rather than COMPFLAGS.
 if ispc && contains(compiler_manufacturer, 'intel')  % on Windows with Microsoft Visual Studio compilers
     compiler_options = ['COMPFLAGS="$COMPFLAGS ', extra_compiler_options, '"'];
+elseif ispc && contains(compiler_manufacturer, 'gnu')  % on Windows with MinGW
+    compiler_options = ['FCCOMPFLAGS="$FCCOMPFLAGS ', extra_compiler_options, '"'];
 else  % with MinGW (on Windows), macOS, and Linux compilers
     compiler_options = ['FFLAGS="$FFLAGS ', extra_compiler_options, '"'];
 end
