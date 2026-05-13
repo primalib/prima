@@ -12,11 +12,11 @@ options.debug = true;
 options.verbose = true;
 setup(options);
 prima('info')
-testprima(false, 1.0e-10, 500, test_classical, verbose);
+testprima(false, 1.0e-10, 600, test_classical, verbose);
 setup
 setup path
 prima('info')
-testprima(false, 1.0e-10, 500, test_classical, verbose);
+testprima(false, 1.0e-10, 600, test_classical, verbose);
 setup cobyla
 setup uobyqa
 setup newuoa

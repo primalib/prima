@@ -3,8 +3,8 @@ function testprima(release, precision, nrun, test_classical, verbose)
 %   release is a boolean that controls whether to test prima in release mode (true) or not (false).
 %   In release mode, the testing precision is relaxed and the testing results are not printed.
 %   precision is a positive scalar that specifies the required precision.
-%   nrun is a positive integer that specifies the number of runs with randomly perturbed x0. The
-%   default value is 1, meaning that no perturbation will be added to x0. If nrun > 1, a tiny
+%   nrun is a positive integer that specifies the number of runs with quasi-randomly perturbed x0.
+%   The default value is 1, meaning that no perturbation will be added to x0. If nrun > 1, a tiny
 %   quasi-random perturbation will be added to x0 in each run.
 %   test_classical is a boolean that controls whether to test the classical version of prima.
 %   verbose is a boolean that controls whether the solvers print messages. In release mode, it will
@@ -44,7 +44,7 @@ if nargin < 2
     precision = 1e-6; % Default testing precision
 end
 if nargin < 3
-    nrun = 1; % Number of runs with randomly perturbed x0
+    nrun = 1; % Number of runs with quasi-randomly perturbed x0
     perturb = 0; % Magnitude of perturbation on x0
 else
     perturb = eps;
@@ -119,7 +119,7 @@ for irun = 1 : nrun
                     x0 = x0_list{ifun};
                     if ~strcmp(solver, 'cobyla') || ~strcmp(func2str(fun), 'chebquad')
                         % The result of cobyla on chebquad is sensitive to x0, so we do not perturb x0
-                        r = abs(sin(1e3*sum(double([solver, func2str(fun), type]))*irun*(1:length(x0))'));
+                        r = abs(sin(1e4*sum(double([solver, func2str(fun), type]))*irun*(1:length(x0))'));
                         % Introduce a tiny perturbation to the experiments.
                         % We use a deterministic permutation so that
                         % experiments can be easily repeated when necessary.
@@ -135,7 +135,8 @@ for irun = 1 : nrun
                     problem.x0 = x0;
                     options.solver = solver;
                     options.classical = clflag;
-                    options.iprint = round(4*(2*rand() - 1)) * verbose;
+                    % Generate options.iprint using a linear congruential generator.
+                    options.iprint = verbose * (mod(mod(2147483647 * sum(double([solver, func2str(fun), type]))*irun, 48271), 9) - 4)
                     problem.options = options;
 
                     switch type
