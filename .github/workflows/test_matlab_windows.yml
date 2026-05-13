@@ -23,7 +23,7 @@ jobs:
         os: [windows-2022, windows-latest]
         matlab: [R2023a, R2024a, latest]  # The earliest and latest supported versions of MATLAB
         compiler: [intel, mingw]
-        mingw: [8.1, 6.4]
+        mingw: [7.5, 6.4]
         exclude:
           # As of 20260507 and MATLAB R2026a, MEX does not work on windows-latest with Intel
           # compilers due to the version of MS Visual Studio, which is Visual Studio 2026 on
@@ -39,7 +39,7 @@ jobs:
 
           # mingw is for specifying the version of MinGW to use.
           - compiler: intel
-            mingw: 8.1
+            mingw: 7.5
           - compiler: intel
             mingw: 6.4
 
