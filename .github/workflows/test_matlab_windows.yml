@@ -39,9 +39,9 @@ jobs:
 
           # mingw is for specifying the version of MinGW to use.
           - compiler: intel
-            mingw: 7.5
+            mingw: 8.1
           - compiler: intel
-            mingw: 6.4
+            mingw: 7.5
 
     steps:
 
