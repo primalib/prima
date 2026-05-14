@@ -22,26 +22,21 @@ jobs:
       matrix:
         os: [windows-2022, windows-latest]
         matlab: [R2023a, R2024a, latest]  # The earliest and latest supported versions of MATLAB
-        compiler: [intel, mingw]
-        mingw: [8.1, 7.5] #, 6.4]
+        compiler: [mingw] #,intel
+        # mingw 6.4 and 7.5 work
+        mingw: [9.4, 10.3, 11.2, 12.2, 13.2, 14.2, 15.2]
         exclude:
-          # As of 20260507 and MATLAB R2026a, MEX does not work on windows-latest with Intel
-          # compilers due to the version of MS Visual Studio, which is Visual Studio 2026 on
-          # windows-latest as of 20260507.
-          - os: windows-latest
-            compiler: intel
+          # # As of 20260507 and MATLAB R2026a, MEX does not work on windows-latest with Intel
+          # # compilers due to the version of MS Visual Studio, which is Visual Studio 2026 on
+          # # windows-latest as of 20260507.
+          # - os: windows-latest
+          #   compiler: intel
+          # # The earliest version of MATLAB supporting OneAPI is R2023a.
+          # - matlab: R2024a
+          #   compiler: intel
           # The earliest version of MATLAB supporting MinGW is R2024a.
           - matlab: R2023a
             compiler: mingw
-          # The earliest version of MATLAB supporting OneAPI is R2023a.
-          - matlab: R2024a
-            compiler: intel
-
-          # mingw is for specifying the version of MinGW to use.
-          - compiler: intel
-            mingw: 8.1
-          - compiler: intel
-            mingw: 7.5
 
     steps:
 
@@ -126,8 +121,13 @@ jobs:
         with:
           command: |
             if strcmpi('${{ matrix.compiler }}', 'mingw')
-                %setenv('MW_MINGW64_LOC', 'C:\ProgramData\mingw64\mingw64');
-                setenv('MW_MINGW64_LOC', 'C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64')
+                if exist('C:\ProgramData\mingw64\mingw64', 'dir')
+                    setenv('MW_MINGW64_LOC', 'C:\ProgramData\mingw64\mingw64');
+                else if exist('C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64', 'dir')
+                    setenv('MW_MINGW64_LOC', 'C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64')
+                else
+                    error('MinGW is not found. Please check the installation path of MinGW and set MW_MINGW64_LOC environment variable accordingly.');
+                end
                 mex('-setup', '-v', 'fortran');
             end
             root_dir = pwd();
