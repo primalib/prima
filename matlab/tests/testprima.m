@@ -101,7 +101,7 @@ if release || ~test_classical
 else
     clflag_list = {true, false}; % clflag: call the solvers in classical mode (true) or not (false)
 end
-clflag_list = {true}; % For test
+clflag_list = {false}; % For test
 
 for irun = 1 : nrun
     fprintf ('\n');
