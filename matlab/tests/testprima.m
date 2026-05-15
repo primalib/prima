@@ -138,6 +138,7 @@ for irun = 1 : nrun
                     options.classical = clflag;
                     % Generate options.iprint using a linear congruential generator.
                     options.iprint = verbose * (mod(mod(2147483647 * sum(double([solver, func2str(fun), type]))*irun, 48271), 9) - 4)
+                    options.iprint = 0; % For test
                     problem.options = options;
 
                     switch type
