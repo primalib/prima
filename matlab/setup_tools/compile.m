@@ -93,7 +93,7 @@ if contains(compiler_manufacturer, 'gnu')  % gfortran
     end
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %extra_compiler_options = [extra_compiler_options, ' -Wno-missing-include-dirs -fno-stack-arrays -frecursive'];
-    extra_compiler_options = [extra_compiler_options, ' -Wno-missing-include-dirs -fno-stack-arrays -frecursive -fcheck=all -fbacktrace'];
+    extra_compiler_options = [extra_compiler_options, ' -Wno-missing-include-dirs -fno-stack-arrays -frecursive -fbacktrace'];
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     % -ftrampoline-impl=heap instructs the compiler to put the trampolines on the heap instead of the
